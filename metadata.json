@@ -1,6 +1,0 @@
-{
-  "name": "Idea Decision Engine",
-  "description": "アイデアを、意思決定できる事業構想へ。新規事業の構造化分析、ビジネスモデル、意思決定ブリーフ、事業提案書、MVP仕様書、検証計画を一括生成する意思決定支援アプリ。",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
