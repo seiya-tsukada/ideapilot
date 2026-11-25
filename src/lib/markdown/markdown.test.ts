@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { SAMPLE_CORPORATE_REPORT } from '../../data/samples.ts';
+import { SAMPLE_CORPORATE_REPORT } from '#shared/samples.ts';
 import { mvpToMarkdown, proposalToMarkdown, reportToFullMarkdown } from './export.ts';
 import { parseMarkdownBlocks } from './parse.ts';
 

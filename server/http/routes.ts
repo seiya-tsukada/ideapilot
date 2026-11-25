@@ -1,7 +1,9 @@
 import { Router, type Response } from 'express';
 import type { AnalysisEvent, ClarifyResponse } from '#shared/analysis.ts';
 import { buildFallbackClarifyingQuestions, validateIdeaInput } from '#shared/validation.ts';
+import { config } from '../config.ts';
 import { hasApiKey } from '../ai/gemini.ts';
+import { mockClarifyingQuestions, runMockPipeline } from '../ai/mock.ts';
 import { generateClarifyingQuestions, runDecisionPipeline } from '../ai/pipeline.ts';
 import { openEventStream } from './sse.ts';
 
@@ -14,10 +16,13 @@ function abortOnDisconnect(res: Response): AbortSignal {
   return controller.signal;
 }
 
+const useMock = config.aiBackend === 'mock';
+const runPipeline = useMock ? runMockPipeline : runDecisionPipeline;
+
 export const apiRouter = Router();
 
 apiRouter.get('/health', (_req, res) => {
-  res.json({ ok: true, hasGeminiKey: hasApiKey() });
+  res.json({ ok: true, aiBackend: config.aiBackend, hasGeminiKey: hasApiKey() });
 });
 
 apiRouter.post('/clarify', async (req, res) => {
@@ -28,6 +33,11 @@ apiRouter.post('/clarify', async (req, res) => {
   }
 
   const input = validation.data;
+  if (useMock) {
+    res.json(mockClarifyingQuestions(input));
+    return;
+  }
+
   const fallback = buildFallbackClarifyingQuestions(input);
   if (fallback.length === 0) {
     res.json({ needsClarification: false, questions: [] } satisfies ClarifyResponse);
@@ -53,7 +63,7 @@ apiRouter.post('/analyze', async (req, res) => {
   const stream = openEventStream<AnalysisEvent>(res);
 
   try {
-    const report = await runDecisionPipeline(validation.data, {
+    const report = await runPipeline(validation.data, {
       signal,
       onProgress: (data) => stream.send({ type: 'progress', data }),
     });
