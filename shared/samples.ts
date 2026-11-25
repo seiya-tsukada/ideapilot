@@ -1,4 +1,4 @@
-import type { DecisionReport, IdeaInput } from '#shared/schema.ts';
+import type { DecisionReport, IdeaInput } from './schema.ts';
 
 export interface SampleIdea {
   label: string;

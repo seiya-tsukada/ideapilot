@@ -3,7 +3,7 @@ import { ArrowRight, ChevronDown, Loader2, Sparkles } from 'lucide-react';
 import type { ClarifyingAnswer, ClarifyingQuestion, IdeaConstraints, IdeaInput } from '#shared/schema.ts';
 import { validateIdeaInput } from '#shared/validation.ts';
 import { Button } from '../../components/ui/Button.tsx';
-import { SAMPLE_IDEAS } from '../../data/samples.ts';
+import { SAMPLE_IDEAS } from '#shared/samples.ts';
 import { requestClarification } from '../../lib/api.ts';
 import { cn } from '../../lib/cn.ts';
 import { pad2 } from '../../lib/format.ts';

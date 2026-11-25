@@ -5,11 +5,18 @@ import { apiRouter } from './http/routes.ts';
 
 const ROOT_DIR = path.resolve(import.meta.dirname, '..');
 
-export async function createApp() {
+/** API-only app. Used as-is by the Vercel function, where the CDN serves the client. */
+export function createApiApp() {
   const app = express();
   app.disable('x-powered-by');
   app.use(express.json({ limit: '2mb' }));
   app.use('/api', apiRouter);
+  return app;
+}
+
+/** Long-running server: the API plus the client (Vite middleware in dev, `dist/` in production). */
+export async function createApp() {
+  const app = createApiApp();
 
   if (config.isProduction) {
     const distDir = path.join(ROOT_DIR, 'dist');

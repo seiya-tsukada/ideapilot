@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { DecisionReport, IdeaInput } from '#shared/schema.ts';
 import { HistoryDrawer } from './components/layout/HistoryDrawer.tsx';
 import { TopNav } from './components/layout/TopNav.tsx';
-import { createSampleReport } from './data/samples.ts';
+import { createSampleReport } from '#shared/samples.ts';
 import { AnalysisScreen } from './features/analysis/AnalysisScreen.tsx';
 import { useAnalysis } from './features/analysis/useAnalysis.ts';
 import { ExportScreen } from './features/export/ExportScreen.tsx';

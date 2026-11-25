@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { it } from 'node:test';
-import { SAMPLE_CORPORATE_REPORT } from '../data/samples.ts';
+import { SAMPLE_CORPORATE_REPORT } from '#shared/samples.ts';
 import { createReportStore, type StorageLike } from './storage.ts';
 
 function memoryStorage(): StorageLike {
